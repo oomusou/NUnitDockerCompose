@@ -1,15 +1,15 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ClassLib.UnitTest
 {
-    public class UnitTest1
+    public class UnitTest4
     {
         [Test]
         public void Test1()
         {
             Fixture.DockerTest(() => Assert.AreEqual(true, true));
         }
-        
+
         [Test]
         public void Test2()
         {
@@ -27,6 +27,5 @@ namespace ClassLib.UnitTest
         {
             Fixture.DockerTest(() => Assert.AreEqual(true, true));
         }
-        
     }
 }

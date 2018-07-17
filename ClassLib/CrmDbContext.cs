@@ -45,5 +45,31 @@ namespace ClassLib
         {
             optionsBuilder.UseNpgsql(_connectionString);
         }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            var customerId = 1;
+
+            modelBuilder.Entity<Customer>().HasData(new Customer
+            {
+                CustomerId = customerId++,
+                Name = "Sam",
+                Age = 18
+            });
+
+            modelBuilder.Entity<Customer>().HasData(new Customer
+            {
+                CustomerId = customerId++,
+                Name = "Kevin",
+                Age = 19
+            });
+            
+            modelBuilder.Entity<Customer>().HasData(new Customer
+            {
+                CustomerId = customerId++,
+                Name = "John",
+                Age = 20
+            });
+        }
     }
 }

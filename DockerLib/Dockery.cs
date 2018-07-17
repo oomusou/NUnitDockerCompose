@@ -52,10 +52,10 @@ namespace DockerLib
         {
             while (true)
             {
-                var command = "docker inspect --format='{{json .State.Health}}' " + $"{containerInfo.ContainerName}";
+                var command = "docker inspect --format='{{json .State.Health.Status}}' " + $"{containerInfo.ContainerName}";
                 var output = DockerHelper.RunCommand(command);
 
-                if (output.Contains("\"Status\":\"healthy\""))
+                if (output.Contains("healthy"))
                 {
                     break;
                 }

@@ -1,18 +1,13 @@
 using NUnit.Framework;
 
-namespace Tests
+namespace ClassLib.UnitTest
 {
-    public class Tests
+    public class UnitTest1
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void Test1()
         {
-            Assert.Pass();
+            Fixture.DockerTest(() => Assert.AreEqual(true, true));
         }
     }
 }

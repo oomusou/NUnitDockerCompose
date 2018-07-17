@@ -1,3 +1,4 @@
+using DockerLib;
 using NUnit.Framework;
 
 namespace ClassLib.UnitTest
@@ -27,6 +28,5 @@ namespace ClassLib.UnitTest
         {
             Fixture.DockerTest(() => Assert.AreEqual(true, true));
         }
-        
     }
 }

@@ -25,6 +25,12 @@ namespace DockerLib
             DockerComposeDown(containerInfo);
         }
 
+        public static void CleanDocker()
+        {
+            PruneSystem();
+            CleanVolumn();
+        }
+
         private static void DockerComposeUp(ContainerInfo containerInfo)
         {
             var command =
@@ -36,7 +42,7 @@ namespace DockerLib
 
             DockerHelper.RunCommand(command);
         }
-
+        
         private static void DockerComposeDown(ContainerInfo containerInfo)
         {
             var command =
@@ -65,7 +71,19 @@ namespace DockerLib
                 Task.Delay(1000).Wait();
             }
 
-            Task.Delay(2000).Wait();
+            Task.Delay(3000).Wait();
+        }
+
+        private static void PruneSystem()
+        {
+            var command = "docker system prune --force";
+            DockerHelper.RunCommand(command);
+        }
+
+        private static void CleanVolumn()
+        {
+            var command = "docker volume rm $(docker volume ls |awk '{print $2}')";
+            DockerHelper.RunCommand(command);
         }
     }
 }

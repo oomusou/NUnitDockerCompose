@@ -9,7 +9,7 @@ namespace ClassLib
 
         private const string Host = "localhost";
         private const string Port = "1234";
-        private const string DatabaseName = "eflab";
+        private const string DatabaseName = "docker";
         private const string Username = "admin";
         private const string Password = "12345";
         private const string Pooling = "false";

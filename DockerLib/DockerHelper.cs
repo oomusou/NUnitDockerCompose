@@ -17,7 +17,7 @@ namespace DockerLib
             }
         }
 
-        public static string RunCommand(string command)
+        public static string RunCommand(string command, string directory = ".")
         {
             var process = new Process
             {
@@ -26,6 +26,7 @@ namespace DockerLib
                     FileName = "/bin/bash",
                     Arguments = $"-c \"{command}\"",
                     RedirectStandardOutput = true,
+                    WorkingDirectory = directory,
                     UseShellExecute = false,
                     CreateNoWindow = true
                 }

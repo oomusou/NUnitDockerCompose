@@ -71,7 +71,7 @@ namespace DockerLib
                 Task.Delay(1000).Wait();
             }
 
-            Task.Delay(3000).Wait();
+            Task.Delay(5000).Wait();
         }
 
         private static void PruneSystem()

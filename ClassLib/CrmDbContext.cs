@@ -16,7 +16,6 @@ namespace ClassLib
         private const string Timeout = "300"; // Connection timeout : 300s
         private const string CommandTimeout = "0"; // Command timeout : no timeout
 
-
         public CrmDbContext()
         {
             _connectionString = $"Host={Host};" +

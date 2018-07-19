@@ -7,15 +7,9 @@ namespace ClassLib.UnitTest
     public class UnitTest0
     {
         [OneTimeSetUp]
-        public void GlobalSetup()
-        {
-            Migration = Fixture.RunEfMigration;
-        }
-        
+        public void GlobalSetup() => Migration = Fixture.RunEfMigration;
+
         [OneTimeTearDown]
-        public void GlobalTearDown()
-        {
-            CleanDocker(); 
-        }
+        public void GlobalTearDown() => CleanDocker();
     }
 }

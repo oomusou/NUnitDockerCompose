@@ -11,7 +11,11 @@ namespace ClassLib.UnitTest
         {
             Action action = () =>
             {
-                // Your test here
+                // Arrange
+                
+                // Act 
+                
+                // Assert
                 Assert.AreEqual(true, true);
             };
 
@@ -23,7 +27,11 @@ namespace ClassLib.UnitTest
         {
             Action action = () =>
             {
-                // Your test here
+                // Arrange
+                
+                // Act 
+                
+                // Assert
                 Assert.AreEqual(true, true);
             };
 
@@ -35,7 +43,11 @@ namespace ClassLib.UnitTest
         {
             Action action = () =>
             {
-                // Your test here
+                // Arrange
+                
+                // Act 
+                
+                // Assert
                 Assert.AreEqual(true, true);
             };
 
@@ -47,7 +59,11 @@ namespace ClassLib.UnitTest
         {
             Action action = () =>
             {
-                // Your test here
+                // Arrange
+                
+                // Act 
+                
+                // Assert
                 Assert.AreEqual(true, true);
             };
 

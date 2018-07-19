@@ -6,21 +6,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleApp
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            void RunEachDockerTest(int i) => DockerTest(() => Console.WriteLine(i + " pass"));
-            
-            Enumerable.Range(0, 16).ToList()
-                .ForEach(RunEachDockerTest);
+            void RunEachDockerTest(int i) 
+                => DockerTest(() => Console.WriteLine(i + " pass"));
+
+            Enumerable.Range(0, 16).ForEach(RunEachDockerTest);
         }
 
         private static void DockerTest(Action testing)
         {
             Dockery.Migration = RunMigration;
             var containerInfo = Dockery.DockerBeginTest();
-            testing.Invoke();
+            testing();
             Dockery.DockerEndTest(containerInfo);
         }
 

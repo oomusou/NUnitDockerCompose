@@ -25,5 +25,3 @@ VALUES (3, 20, 'John');
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20180717035223_Migration01', '2.1.1-rtm-30846');
-
-

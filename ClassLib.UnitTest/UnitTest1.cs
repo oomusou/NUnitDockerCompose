@@ -42,7 +42,6 @@ namespace ClassLib.UnitTest
         [Test]
         public void Test3()
         {
-
             Action action = () =>
             {
                 // Arrange
@@ -59,7 +58,6 @@ namespace ClassLib.UnitTest
         [Test]
         public void Test4()
         {
-
             Action action = () =>
             {
                 // Arrange

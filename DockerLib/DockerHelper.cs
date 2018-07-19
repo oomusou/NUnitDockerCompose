@@ -1,42 +1,82 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace DockerLib
 {
     public static class DockerHelper
     {
-        public static string RandomPort
+        private const string Username = "admin";
+        private const string Password = "12345";
+        private const int NewLineAscii = 10;
+        private static string Healthy => "\"healthy\"" + Convert.ToChar(NewLineAscii);
+        
+        internal static ContainerInfo CreateContainer()
         {
-            get
-            {
-                // Todo : 使 random port 從 0 開始，並且更加 unique
-                const int minPort = 1000;
-                const int maxPort = 9999;
-                var random = new Random();
-                return random.Next(minPort, maxPort).ToString();
-            }
+            var containerInfo = new ContainerInfo(DockerUtil.RandomPort);
+            DockerComposeUp(containerInfo);
+            WaitForPostgres(containerInfo);
+
+            return containerInfo;
         }
 
-        public static string RunCommand(string command, string directory = ".")
+        internal static void DestroyContainer(ContainerInfo containerInfo)
         {
-            var process = new Process
+            DockerComposeDown(containerInfo);
+        }
+        
+        internal static void PruneSystem()
+        {
+            var command = "docker system prune --force";
+            DockerUtil.RunCommand(command);
+        }
+
+        internal static void CleanVolumn()
+        {
+            var command = "docker volume rm $(docker volume ls |awk '{print $2}')";
+            DockerUtil.RunCommand(command);
+        }
+
+        private static void DockerComposeUp(ContainerInfo containerInfo)
+        {
+            var command =
+                $"export POSTGRES_PORT={containerInfo.Port} && " +
+                $"export POSTGRES_DB={Dockery.DatabaseName} && " +
+                $"export POSTGRES_USER={Username} && " +
+                $"export POSTGRES_PASSWORD={Password} && " +
+                $"docker-compose -p {containerInfo.ProjectName} up -d";
+
+            DockerUtil.RunCommand(command);
+        }
+
+        private static void DockerComposeDown(ContainerInfo containerInfo)
+        {
+            var command =
+                $"export POSTGRES_PORT={containerInfo.Port} && " +
+                $"export POSTGRES_DB={Dockery.DatabaseName} && " +
+                $"export POSTGRES_USER={Username} && " +
+                $"export POSTGRES_PASSWORD={Password} && " +
+                $"docker-compose -p {Dockery.DatabaseName + containerInfo.Port} down";
+
+            DockerUtil.RunCommand(command);
+        }
+
+        private static void WaitForPostgres(ContainerInfo containerInfo)
+        {
+            var command = "docker inspect --format='{{json .State.Health.Status}}' " + $"{containerInfo.ContainerName}";
+
+            while (true)
             {
-                StartInfo = new ProcessStartInfo
+                var output = DockerUtil.RunCommand(command);
+
+                if (output.Equals(Healthy))
                 {
-                    FileName = "/bin/bash",
-                    Arguments = $"-c \"{command}\"",
-                    RedirectStandardOutput = true,
-                    WorkingDirectory = directory,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
+                    break;
                 }
-            };
 
-            process.Start();
-            var output = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
+                Task.Delay(1000).Wait();
+            }
 
-            return output;
+            Task.Delay(2000).Wait();
         }
     }
 }

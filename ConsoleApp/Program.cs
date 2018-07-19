@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ClassLib;
 using DockerLib;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +10,18 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            for (int i = 0; i < 16; i++)
-            {
-                Dockery.Migration = RunMigration;
-                var containerInfo = Dockery.DockerBeginTest();
-                Console.WriteLine(i + " passed");
-                Dockery.DockerEndTest(containerInfo);
-            }
-        
+            void RunEachDockerTest(int i) => DockerTest(() => Console.WriteLine(i + " pass"));
+            
+            Enumerable.Range(0, 16).ToList()
+                .ForEach(RunEachDockerTest);
+        }
+
+        private static void DockerTest(Action testing)
+        {
+            Dockery.Migration = RunMigration;
+            var containerInfo = Dockery.DockerBeginTest();
+            testing.Invoke();
+            Dockery.DockerEndTest(containerInfo);
         }
 
         private static void RunMigration(ContainerInfo containerInfo)

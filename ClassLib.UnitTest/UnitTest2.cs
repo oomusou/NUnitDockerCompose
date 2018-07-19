@@ -1,6 +1,4 @@
-﻿using System;
-using static DockerLib.Dockery;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ClassLib.UnitTest
 {

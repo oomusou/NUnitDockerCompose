@@ -33,7 +33,7 @@ namespace DockerLib
             };
 
             process.Start();
-            string output = process.StandardOutput.ReadToEnd();
+            var output = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
 
             return output;

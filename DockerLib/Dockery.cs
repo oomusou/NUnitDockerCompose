@@ -8,10 +8,25 @@ namespace DockerLib
         public const string DatabaseName = "docker";
         private const string Username = "admin";
         private const string Password = "12345";
-        private static int NewLineASCII = 10;
-        private static string Healthy => "\"healthy\"" + Convert.ToChar(NewLineASCII);
+        private const int NewLineAscii = 10;
+        private static string Healthy => "\"healthy\"" + Convert.ToChar(NewLineAscii);
+        public static Action<ContainerInfo> Migration;
 
-        public static ContainerInfo CreateContainer()
+        public static void DockerTest(Action testing)
+        {
+            var containerInfo = CreateContainer();
+            Migration.Invoke(containerInfo);
+            testing.Invoke();
+            DestroyContainer(containerInfo);
+        }
+        
+        public static void CleanDocker()
+        {
+            PruneSystem();
+            CleanVolumn();
+        } 
+       
+        private static ContainerInfo CreateContainer()
         {
             var containerInfo = new ContainerInfo(DockerHelper.RandomPort);
             DockerComposeUp(containerInfo);
@@ -20,15 +35,9 @@ namespace DockerLib
             return containerInfo;
         }
 
-        public static void DestroyContainer(ContainerInfo containerInfo)
+        private static void DestroyContainer(ContainerInfo containerInfo)
         {
             DockerComposeDown(containerInfo);
-        }
-
-        public static void CleanDocker()
-        {
-            PruneSystem();
-            CleanVolumn();
         }
 
         private static void DockerComposeUp(ContainerInfo containerInfo)
@@ -42,7 +51,7 @@ namespace DockerLib
 
             DockerHelper.RunCommand(command);
         }
-        
+
         private static void DockerComposeDown(ContainerInfo containerInfo)
         {
             var command =
@@ -67,11 +76,11 @@ namespace DockerLib
                 {
                     break;
                 }
-                
+
                 Task.Delay(1000).Wait();
             }
 
-            Task.Delay(5000).Wait();
+            Task.Delay(2000).Wait();
         }
 
         private static void PruneSystem()

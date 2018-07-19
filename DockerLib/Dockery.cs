@@ -4,17 +4,21 @@ namespace DockerLib
 {
     public static class Dockery
     {
-        public const string DatabaseName = "docker";
         public static Action<ContainerInfo> Migration;
         
-        public static void DockerTest(Action testing)
+        public static ContainerInfo DockerBeginTest()
         {
             var containerInfo = DockerHelper.CreateContainer();
             Migration.Invoke(containerInfo);
-            testing.Invoke();
+
+            return containerInfo;
+        }
+
+        public static void DockerEndTest(ContainerInfo containerInfo)
+        {
             DockerHelper.DestroyContainer(containerInfo);
         }
-        
+
         public static void CleanDocker()
         {
             DockerHelper.PruneSystem();

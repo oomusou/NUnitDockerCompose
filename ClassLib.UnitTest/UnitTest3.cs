@@ -4,70 +4,50 @@ using NUnit.Framework;
 
 namespace ClassLib.UnitTest
 {
-    public class UnitTest3
+    public class UnitTest3 : DockerTest
     {
         [Test]
         public void Test1()
         {
-            Action action = () =>
-            {
-                // Arrange
-                
-                // Act 
-                
-                // Assert
-                Assert.AreEqual(true, true);
-            };
-
-            DockerTest(action);
+            // Arrange
+            
+            // Act
+            
+            // Assert
+            Assert.AreEqual(true, true);
         }
 
         [Test]
         public void Test2()
         {
-            Action action = () =>
-            {
-                // Arrange
-                
-                // Act 
-                
-                // Assert
-                Assert.AreEqual(true, true);
-            };
-
-            DockerTest(action);
+            // Arrange
+            
+            // Act
+            
+            // Assert
+            Assert.AreEqual(true, true);
         }
 
         [Test]
         public void Test3()
         {
-            Action action = () =>
-            {
-                // Arrange
-                
-                // Act 
-                
-                // Assert
-                Assert.AreEqual(true, true);
-            };
-
-            DockerTest(action);
+            // Arrange
+            
+            // Act
+            
+            // Assert
+            Assert.AreEqual(true, true);
         }
 
         [Test]
         public void Test4()
         {
-            Action action = () =>
-            {
-                // Arrange
-                
-                // Act 
-                
-                // Assert
-                Assert.AreEqual(true, true);
-            };
-
-            DockerTest(action);
+            // Arrange
+            
+            // Act
+            
+            // Assert
+            Assert.AreEqual(true, true);
         }
     }
 }

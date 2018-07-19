@@ -12,8 +12,9 @@ namespace ConsoleApp
             for (int i = 0; i < 16; i++)
             {
                 Dockery.Migration = RunMigration;
-                Action action = () => Console.WriteLine(i + " passed");
-                Dockery.DockerTest(action);
+                var containerInfo = Dockery.DockerBeginTest();
+                Console.WriteLine(i + " passed");
+                Dockery.DockerEndTest(containerInfo);
             }
         
         }

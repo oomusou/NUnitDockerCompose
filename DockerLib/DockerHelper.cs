@@ -5,6 +5,7 @@ namespace DockerLib
 {
     public static class DockerHelper
     {
+        public const string DatabaseName = "docker";
         private const string Username = "admin";
         private const string Password = "12345";
         private const int NewLineAscii = 10;
@@ -40,7 +41,7 @@ namespace DockerLib
         {
             var command =
                 $"export POSTGRES_PORT={containerInfo.Port} && " +
-                $"export POSTGRES_DB={Dockery.DatabaseName} && " +
+                $"export POSTGRES_DB={DatabaseName} && " +
                 $"export POSTGRES_USER={Username} && " +
                 $"export POSTGRES_PASSWORD={Password} && " +
                 $"docker-compose -p {containerInfo.ProjectName} up -d";
@@ -52,10 +53,10 @@ namespace DockerLib
         {
             var command =
                 $"export POSTGRES_PORT={containerInfo.Port} && " +
-                $"export POSTGRES_DB={Dockery.DatabaseName} && " +
+                $"export POSTGRES_DB={DatabaseName} && " +
                 $"export POSTGRES_USER={Username} && " +
                 $"export POSTGRES_PASSWORD={Password} && " +
-                $"docker-compose -p {Dockery.DatabaseName + containerInfo.Port} down";
+                $"docker-compose -p {DatabaseName + containerInfo.Port} down";
 
             DockerUtil.RunCommand(command);
         }

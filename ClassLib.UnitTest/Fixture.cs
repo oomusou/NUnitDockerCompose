@@ -19,7 +19,7 @@ namespace ClassLib.UnitTest
             var sqlScript = File.ReadAllText(filePath);
             
             var crmDbContext = new CrmDbContext(container.Port);
-            crmDbContext.Database.SetCommandTimeout(300);
+            crmDbContext.Database.SetCommandTimeout(500);
             crmDbContext.Database.ExecuteSqlCommand(sqlScript);
         }
     }

@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using static DockerLib.Dockery;
+﻿using DockerLib;
+using NUnit.Framework;
 
 namespace ClassLib.UnitTest
 {
@@ -7,9 +7,9 @@ namespace ClassLib.UnitTest
     public class UnitTest0
     {
         [OneTimeSetUp]
-        public void GlobalSetup() => Migration = Fixture.RunEfMigration;
+        public void GlobalSetup() => Dockery.Migration = Fixture.RunEfMigration;
         
         [OneTimeTearDown]
-        public void GlobalTearDown() => CleanContainer();
+        public void GlobalTearDown() => Dockery.CleanContainer();
     }
 }

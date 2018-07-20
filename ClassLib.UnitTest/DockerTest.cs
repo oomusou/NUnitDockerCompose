@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using DockerLib;
 using NUnit.Framework;
-using static DockerLib.Dockery;
 
 namespace ClassLib.UnitTest
 {
@@ -11,9 +10,9 @@ namespace ClassLib.UnitTest
         private static string TestFullName => TestContext.CurrentContext.Test.FullName;
 
         [SetUp]
-        public void Setup() => _containerInfos[TestFullName] = BeginTest();
+        public void Setup() => _containerInfos[TestFullName] = Dockery.BeginTest();
 
         [TearDown]
-        public void TearDown() => EndTest(_containerInfos[TestFullName]);
+        public void TearDown() => Dockery.EndTest(_containerInfos[TestFullName]);
     }
 }

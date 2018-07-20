@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using DockerLib;
 using Microsoft.EntityFrameworkCore;
-using static DockerLib.DockerUtil;
 
 namespace ClassLib.UnitTest
 {
@@ -18,7 +17,7 @@ namespace ClassLib.UnitTest
         {
             var workingDirectory = "/Users/oomusou/Code/CSharp/NUnitDockerCompose/ClassLib";
             var command = "dotnet ef migrations script";
-            var sqlScript = Run(command, workingDirectory);
+            var sqlScript = DockerUtil.Run(command, workingDirectory);
 
             var crmDbContext = new CrmDbContext(container.Port);
             crmDbContext.Database.SetCommandTimeout(300);

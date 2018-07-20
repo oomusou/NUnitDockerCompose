@@ -2,6 +2,7 @@
 using System.Linq;
 using ClassLib;
 using DockerLib;
+using static DockerLib.Dockery;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleApp
@@ -18,15 +19,15 @@ namespace ConsoleApp
 
         private static void DockerTest(Action testing)
         {
-            Dockery.Migration = RunMigration;
-            var containerInfo = Dockery.DockerBeginTest();
+            Migration = RunMigration;
+            var containerInfo = BeginTest();
             testing();
-            Dockery.DockerEndTest(containerInfo);
+            EndTest(containerInfo);
         }
 
-        private static void RunMigration(ContainerInfo containerInfo)
+        private static void RunMigration(Container container)
         {
-            var crmDbContext = new CrmDbContext(containerInfo.Port);
+            var crmDbContext = new CrmDbContext(container.Port);
             crmDbContext.Database.SetCommandTimeout(300);
             crmDbContext.Database.Migrate();
         }

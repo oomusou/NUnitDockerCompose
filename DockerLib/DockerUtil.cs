@@ -16,7 +16,7 @@ namespace DockerLib
             }
         }
 
-        public static string RunCommand(string command, string directory = ".")
+        public static string Run(string command, string directory = ".")
         {
             var process = new Process
             {

@@ -1,28 +1,19 @@
 ﻿using System;
+using static DockerLib.DockerHelper;
 
 namespace DockerLib
 {
     public static class Dockery
     {
-        public static Action<ContainerInfo> Migration;
-        
-        public static ContainerInfo DockerBeginTest()
-        {
-            var containerInfo = DockerHelper.CreateContainer();
-            Migration.Invoke(containerInfo);
+        public static Action<Container> Migration;
+        public static Container BeginTest() => CreateContainer().RunMigration();
+        public static void EndTest(Container container) => DestroyContainer(container);
+        public static void CleanContainer() => PruneSystem();
 
-            return containerInfo;
+        private static Container RunMigration(this Container container)
+        {
+            Migration(container);
+            return container;
         }
-
-        public static void DockerEndTest(ContainerInfo containerInfo)
-        {
-            DockerHelper.DestroyContainer(containerInfo);
-        }
-
-        public static void CleanDocker()
-        {
-            DockerHelper.PruneSystem();
-            DockerHelper.CleanVolumn();
-        } 
     }
 }

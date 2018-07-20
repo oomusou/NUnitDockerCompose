@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using DockerLib;
 using NUnit.Framework;
+using static DockerLib.Dockery;
 
 namespace ClassLib.UnitTest
 {
     public class DockerTest
     {
-        private readonly Dictionary<string, ContainerInfo> _containerInfos = new Dictionary<string, ContainerInfo>();
+        private readonly Dictionary<string, Container> _containerInfos = new Dictionary<string, Container>();
         private static string TestFullName => TestContext.CurrentContext.Test.FullName;
 
         [SetUp]
-        public void Setup() => _containerInfos[TestFullName] = Dockery.DockerBeginTest();
+        public void Setup() => _containerInfos[TestFullName] = BeginTest();
 
         [TearDown]
-        public void TearDown() => Dockery.DockerEndTest(_containerInfos[TestFullName]);
+        public void TearDown() => EndTest(_containerInfos[TestFullName]);
     }
 }

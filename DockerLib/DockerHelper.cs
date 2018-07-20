@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using static DockerLib.DockerUtil;
 
 namespace DockerLib
 {
@@ -8,76 +9,68 @@ namespace DockerLib
         public const string DatabaseName = "docker";
         private const string Username = "admin";
         private const string Password = "12345";
-        private const int NewLineAscii = 10;
-        private static string Healthy => "\"healthy\"" + Convert.ToChar(NewLineAscii);
-        
-        internal static ContainerInfo CreateContainer()
-        {
-            var containerInfo = new ContainerInfo(DockerUtil.RandomPort);
-            DockerComposeUp(containerInfo);
-            WaitForPostgres(containerInfo);
+        private static string Healthy => "\"healthy\"" + Environment.NewLine;
+        private static bool IsHealthy(string command) => Run(command).Equals(Healthy);
+        private static void Sleep(int time) => Task.Delay(time).Wait();
 
-            return containerInfo;
+        internal static Container CreateContainer()
+        {
+            return new Container(RandomPort)
+                .DockerComposeUp()
+                .WaitForPostgres();
         }
 
-        internal static void DestroyContainer(ContainerInfo containerInfo)
+        internal static void DestroyContainer(Container container)
         {
-            DockerComposeDown(containerInfo);
+            DockerComposeDown(container);
         }
-        
+
         internal static void PruneSystem()
         {
-            var command = "docker system prune --force";
-            DockerUtil.RunCommand(command);
+            var command = "docker system prune --force --volumes";
+            Run(command);
         }
 
-        internal static void CleanVolumn()
-        {
-            var command = "docker volume rm $(docker volume ls |awk '{print $2}')";
-            DockerUtil.RunCommand(command);
-        }
-
-        private static void DockerComposeUp(ContainerInfo containerInfo)
+        private static Container DockerComposeUp(this Container container)
         {
             var command =
-                $"export POSTGRES_PORT={containerInfo.Port} && " +
+                $"export POSTGRES_PORT={container.Port} && " +
                 $"export POSTGRES_DB={DatabaseName} && " +
                 $"export POSTGRES_USER={Username} && " +
                 $"export POSTGRES_PASSWORD={Password} && " +
-                $"docker-compose -p {containerInfo.ProjectName} up -d";
+                $"docker-compose -p {container.ProjectName} up -d";
 
-            DockerUtil.RunCommand(command);
+            Run(command);
+            return container;
         }
 
-        private static void DockerComposeDown(ContainerInfo containerInfo)
+        private static void DockerComposeDown(this Container container)
         {
             var command =
-                $"export POSTGRES_PORT={containerInfo.Port} && " +
+                $"export POSTGRES_PORT={container.Port} && " +
                 $"export POSTGRES_DB={DatabaseName} && " +
                 $"export POSTGRES_USER={Username} && " +
                 $"export POSTGRES_PASSWORD={Password} && " +
-                $"docker-compose -p {DatabaseName + containerInfo.Port} down";
+                $"docker-compose -p {DatabaseName + container.Port} down";
 
-            DockerUtil.RunCommand(command);
+            Run(command);
         }
 
-        private static void WaitForPostgres(ContainerInfo containerInfo)
+        private static Container WaitForPostgres(this Container container)
         {
-            var command = "docker inspect --format='{{json .State.Health.Status}}' " + $"{containerInfo.ContainerName}";
+            var command = 
+                "docker inspect --format='{{json .State.Health.Status}}' " + 
+                container.ContainerName;
 
             while (true)
             {
-                var output = DockerUtil.RunCommand(command);
+                if (IsHealthy(command)) break;
 
-                if (output.Equals(Healthy))
-                {
-                    break;
-                }
-
-                Task.Delay(1000).Wait();
+                Sleep(1000);
             }
-
-            Task.Delay(2000).Wait();
+            
+            Sleep(3000);
+            return container;
         }
     }
 }

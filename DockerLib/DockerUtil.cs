@@ -5,18 +5,12 @@ namespace DockerLib
 {
     public static class DockerUtil
     {
-        public static string RandomPort
-        {
-            get
-            {
-                const int minPort = 1000;
-                const int maxPort = 9999;
-                var random = new Random();
-                return random.Next(minPort, maxPort).ToString();
-            }
-        }
+        private const int MinValue = 1000;
+        private const int MaxValue = 9999;
 
-        public static string Run(string command, string directory = ".")
+        internal static string RandomPort => new Random().Next(MinValue, MaxValue).ToString();
+
+        internal static string Run(string command, string directory = ".")
         {
             var process = new Process
             {

@@ -6,7 +6,7 @@ namespace DockerLib
 {
     public static class DockerHelper
     {
-        public const string DatabaseName = "docker";
+        internal const string DatabaseName = "docker";
         private const string Username = "admin";
         private const string Password = "12345";
         private static string Healthy => "\"healthy\"" + Environment.NewLine;
@@ -69,7 +69,7 @@ namespace DockerLib
                 Sleep(1000);
             }
             
-            Sleep(3000);
+            Sleep(5000);
             return container;
         }
     }

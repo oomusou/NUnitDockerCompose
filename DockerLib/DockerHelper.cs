@@ -10,7 +10,7 @@ namespace DockerLib
         private const string Username = "admin";
         private const string Password = "12345";
         private static string Healthy => "\"healthy\"" + Environment.NewLine;
-        private static bool IsHealthy(string command) => Run(command).Equals(Healthy);
+        private static bool IsPostgresHealthy(string command) => Run(command).Equals(Healthy);
         private static void Sleep(int time) => Task.Delay(time).Wait();
 
         internal static Container CreateContainer()
@@ -64,7 +64,7 @@ namespace DockerLib
 
             while (true)
             {
-                if (IsHealthy(command)) break;
+                if (IsPostgresHealthy(command)) break;
 
                 Sleep(1000);
             }

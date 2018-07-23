@@ -10,26 +10,30 @@ namespace DockerLib
 
         internal static string RandomPort => new Random().Next(MinValue, MaxValue).ToString();
 
-        internal static string Run(string command, string directory = ".")
+        internal static string Run(string command)
         {
-            var process = new Process
+            string output;
+            
+            using (var process = new Process {StartInfo = GetStartInfo(command)})
             {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = "/bin/bash",
-                    Arguments = $"-c \"{command}\"",
-                    RedirectStandardOutput = true,
-                    WorkingDirectory = directory,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                }
-            };
-
-            process.Start();
-            var output = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
+                process.Start();
+                output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+            }
 
             return output;
+        }
+
+        private static ProcessStartInfo GetStartInfo(string command)
+        {
+            return new ProcessStartInfo
+            {
+                FileName = "/bin/bash",
+                Arguments = $"-c \"{command}\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
         }
     }
 }

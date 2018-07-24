@@ -9,7 +9,9 @@ namespace DockerLib
         internal const string DatabaseName = "docker";
         private const string Username = "admin";
         private const string Password = "12345";
-        private static string Healthy => "\"healthy\"" + Environment.NewLine;
+        private const int NewLineAscii = 10;
+        private static char NewLine => Convert.ToChar(NewLineAscii);
+        private static string Healthy => "\"healthy\"" + NewLine;
         private static bool IsPostgresHealthy(string command) => Run(command).Equals(Healthy);
         private static void Sleep(int time) => Task.Delay(time).Wait();
 

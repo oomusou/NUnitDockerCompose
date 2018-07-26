@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>DockerLib</PackageId>
-    <Version>1.0.0</Version>
+    <PackageId>DockerLibLinux</PackageId>
+    <Version>1.2.0</Version>
     <Authors>Sam</Authors>
     <Company>Sam</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

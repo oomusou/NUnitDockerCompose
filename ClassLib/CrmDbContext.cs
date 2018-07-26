@@ -16,16 +16,9 @@ namespace ClassLib
         private const string Timeout = "300"; // Connection timeout : 300s
         private const string CommandTimeout = "0"; // Command timeout : no timeout
 
-        public CrmDbContext()
+        public CrmDbContext() : this(Port)
         {
-            _connectionString = $"Host={Host};" +
-                                $"Port={Port};" +
-                                $"Database={DatabaseName};" +
-                                $"Username={Username};" +
-                                $"Password={Password};" +
-                                $"Pooling={Pooling};" +
-                                $"Timeout={Timeout};" +
-                                $"CommandTimeout={CommandTimeout}";
+            
         }
 
         public CrmDbContext(string port)

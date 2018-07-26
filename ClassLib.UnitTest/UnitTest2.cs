@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using DockerLib;
+using NUnit.Framework;
 
 namespace ClassLib.UnitTest
 {

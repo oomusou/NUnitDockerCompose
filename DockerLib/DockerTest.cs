@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using DockerLib;
 using NUnit.Framework;
 
-namespace ClassLib.UnitTest
+namespace DockerLib
 {
     public class DockerTest
     {
